@@ -1,33 +1,11 @@
 const express = require("express");
-
+const {userRouter} = require("./user");
+const {courseRouter} = require("./course");
+const {adminRouter} = require("./admin")
 const app = express();
 
-app.post("/user/signup", function(req, res){
-    res.json({
-        message: "Signup Complete"
-    })
-})
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/course", courseRouter);
+app.use("/api/v1/admin", adminRouter);
 
-app.post("/user/signin", function(req, res){
-    res.json({
-        message: "Signin Complete"
-    })
-})
-
-app.get("/user/purchases", function(req, res){
-    res.json({
-        message: "All Purchases"
-    })
-})
-
-app.post("/course/purchase", function(req, res){
-    res.json({
-        message: "Course Purchase Complete"
-    })
-})
-
-app.get("/Courses", function(req, res){
-    res.json({
-        message: "All Courses"
-    })
-})
+app.listen(4000);
