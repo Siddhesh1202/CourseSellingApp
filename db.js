@@ -1,6 +1,4 @@
 const { default: mongoose } = require("mongoose");
-console.log("connected")
-mongoose.connect("mongodb+srv://sd1386:Cricket123@cluster0.n01q7.mongodb.net/coursera-app");
 
 const Schema = mongoose.Schema;
 const userSchema = new Schema(
