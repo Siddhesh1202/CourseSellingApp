@@ -4,7 +4,7 @@ const adminRouter = Router();
 const {adminMiddleware} = require("../middleware/admin")
 // adminRouter.use(adminMiddleware);
 const jwt = require("jsonwebtoken");
-
+const  { JWT_ADMIN_PASSWORD } = require("../config");
 
 adminRouter.post("/signup", async function(req, res){
     const {email, password, firstName, lastName} = req.body; // TODO: Add zod valdiation
@@ -22,25 +22,28 @@ adminRouter.post("/signup", async function(req, res){
     })
 })
 
-adminRouter.post("/signin", async function(req, res){
-    const {email, password} = req.body;
+adminRouter.post("/signin", async function(req, res) {
+    const { email, password } = req.body;
+
+    // TODO: ideally password should be hashed, and hence you cant compare the user provided password and the database password
     const admin = await adminModel.findOne({
         email: email,
         password: password
-    })
+    });
 
-    if (admin){
+    if (admin) {
         const token = jwt.sign({
             id: admin._id
         }, JWT_ADMIN_PASSWORD);
 
+        // Do cookie logic
+
         res.json({
-            token: token,
+            token: token
         })
-    }
-    else{
+    } else {
         res.status(403).json({
-            message: "Incorrect Credentials"
+            message: "Incorrect credentials"
         })
     }
 })
